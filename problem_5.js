@@ -1,16 +1,8 @@
-function nearestVowel(s) {
-  let obj = { a: 99, e: 99, i: 99, o: 99, u: 99 };
-  let min = 99;
-  let sol = "";
-  let vowelArr = ['a', 'e', 'i', 'o', 'u'];
-  for (let char of vowelArr) {
-    let diff = Math.abs(char.charCodeAt(0) - s.charCodeAt(0));
-    if (diff < min) {
-      min = diff;
-      sol = char;
-    }
-  }
-  return sol;
+function getArrayDepth(value) {
+  return Array.isArray(value) ? 
+    1 + Math.max(0, ...value.map(getArrayDepth)) :
+    0;
 }
 
-console.log(nearestVowel('z'));
+let testRy = [1, [2, [3, 4]]];
+console.log(getArrayDepth(testRy));
