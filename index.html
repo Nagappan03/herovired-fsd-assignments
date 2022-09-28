@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Restaurant List</title>
+    <style>
+        #restaurantList {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            border-left: 2px solid black;
+            border-right: 2px solid black;
+        }
+        #sitdown {
+            color: green;
+        }
+        #bar {
+            color: red;
+        }
+        #takeaway {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <ul id="restaurantList"></ul>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                restaurantDetails(this);
+            }
+        };
+        xmlhttp.open("GET", "restaurants.xml", true);
+        xmlhttp.send();
+
+        function restaurantDetails(xml) {
+            var i;
+            var xmlDoc = xml.responseXML;
+            var list = "";
+            var x = xmlDoc.getElementsByTagName("restaurant");
+            for (i = 0; i < x.length; i++) {
+                if(x[i].getAttribute("type") == "sitdown"){
+                    list += "<li id='sitdown'>" + x[i].getAttribute("name") + "&emsp; - &emsp;" + x[i].getAttribute("address") + "</li>";
+                }else if(x[i].getAttribute("type") == "bar"){
+                    list += "<li id='bar'>" + x[i].getAttribute("name") + "&emsp; - &emsp;" + x[i].getAttribute("address") + "</li>";
+                }else if(x[i].getAttribute("type") == "takeaway"){
+                    list += "<li id='takeway'>" + x[i].getAttribute("name") + "&emsp; - &emsp;" + x[i].getAttribute("address") + "</li>";
+                }
+            }
+            document.getElementById("restaurantList").innerHTML = list;
+        }
+    </script>
+</body>
+</html>

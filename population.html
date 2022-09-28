@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Population Data</title>
+    <script>
+      function loadPopulationData() {
+        var countryName = document.getElementById("countryName").value;
+        var upperCountryName = countryName.toUpperCase();
+        var xhttp = new XMLHttpRequest();
+        var url = "https://jsonmock.hackerrank.com/api/countries/search?name=" + countryName;
+        xhttp.open("GET", url, true);
+        xhttp.send();
+
+        xhttp.onreadystatechange = function () {
+          if (xhttp.readyState === 4 && xhttp.status === 200) {
+            document.getElementById("countryName").value = '';
+            var ul = document.getElementById("populationList");
+            var populationData = JSON.parse(xhttp.response);
+            var countryData = populationData.data;
+            if(countryData.length > 0){
+                for(i = 0; i < countryData.length; i++){
+                    if(countryData[i].name.toUpperCase() === upperCountryName){
+                        var list = document.createElement('li');
+                        list.innerHTML = countryData[i].name + "&emsp; - &emsp;" + countryData[i].population;
+                        ul.insertAdjacentElement('beforeend', list);
+                    }
+                }
+            } else {
+                alert("Please enter a valid country name");
+            }
+          }
+        };
+      }
+    </script>
+</head>
+<body>
+  <div id="form">
+    <input type="text" name="countryName" id="countryName" />
+    <button onclick="loadPopulationData()">Load</button>
+  </div>
+  <div id="population">
+    <ul id="populationList"></ul>
+  </div>
+</body>
+</html>
